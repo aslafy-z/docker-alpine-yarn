@@ -1,13 +1,6 @@
 FROM mhart/alpine-node:base-7
 
-ENV HOME="/root"
-
-RUN apk add --update --no-cache --virtual .build-deps curl gnupg libcap && \
-  curl -o- -L https://yarnpkg.com/install.sh | sh && \
-  # allow node to bind port 80
-  setcap cap_net_bind_service=ep /usr/bin/node && \
-  apk del .build-deps
-
-ENV PATH="$PATH:$HOME/.yarn/bin"
+RUN echo -e 'http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing' > /etc/apk/repositories && \
+  apk add --update --no-cache yarn
 
 CMD yarn
